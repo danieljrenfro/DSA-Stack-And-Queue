@@ -168,37 +168,56 @@ function parenthesisMatch2(string) {
 }
 
 function parenthesisMatch3(string) {
+  // create a new stack
   const stack = new Stack();
 
+  // instantiate brackets variable.
   const brackets = {
     '(': ')',
     '{': '}',
     '[': ']'
   };
 
+  // make array of open brackets.
   const openBrackets = Object.keys(brackets);
+
+  // make array of closed brackets.
   const closeBrackets = Object.keys(brackets);
 
+  // make array of double and single quotation marks.
   const quotes = ['"', "'"];
 
+  // setting inQuotes to be false
   let inQuotes = false;
 
+  // looping through the string
   for (let i = 0; i < string.length; i++) {
+    // setting char to equal the character at i
     const char = string.charAt(i);
 
+    // if the current char is a quotation mark
     if (quotes.includes(char)) {
+      // if there has already been a quotation mark and inQuotes is set to true
       if (inQuotes) {
+        // check to see the most recent item in the stack
         const candidate = stack.peek();
+        // if that top item in the stack matches the current char, it is proper quotations
         if (candidate === char) {
+          // remove that top item from the stack
           stack.pop();
+          // reset inQuotes to false
           inQuotes = false;
         }
       }
+      // otherwise, if inQuotes is false
       else {
+        // push the char to the stack
         stack.push(char);
+        // set inQuotes to true
         inQuotes = true;
       }
     }
+    // the rest of this logic is the same as the previous solution.
     else if (openBrackets.includes(char) && !inQuotes) {
       stack.push(char);
     }
@@ -244,3 +263,5 @@ function main() {
 }
 
 main();
+
+module.exports = Stack;
